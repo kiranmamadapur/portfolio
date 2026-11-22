@@ -303,6 +303,7 @@ body,main,.w,.s,.card,.bd,.cs,.lay{overflow-wrap:anywhere}
 .cs.artifact-process .scroll svg{display:block;min-width:680px;max-width:100%;height:auto;margin:auto}
 .cs.artifact-process>.note{margin-top:14px;padding:12px 15px;border-left:3px solid var(--olive);background:#eeefe9}
 @media(max-width:700px){.cs.artifact-brd,.cs.artifact-frd,.cs.artifact-rtm,.cs.artifact-process{padding:17px}.cs.artifact-brd th,.cs.artifact-frd th,.cs.artifact-rtm th{padding:10px;font-size:9px}.cs.artifact-brd td,.cs.artifact-frd td,.cs.artifact-rtm td{padding:10px;font-size:12px}}
+.pf .btn.on{background:var(--ink);color:#fff}.grid .card[hidden]{display:none}
 @media print{.cs.artifact-brd,.cs.artifact-frd,.cs.artifact-rtm,.cs.artifact-process{break-inside:avoid;box-shadow:none;background:#fff}.cs.artifact-brd th,.cs.artifact-frd th,.cs.artifact-rtm th{background:#eee!important;color:#111!important}}
 /* Clear recruiter contact actions */
 .contact-email{display:inline-block;margin:4px 0 0;color:#fff;font-size:clamp(17px,2.4vw,22px);font-weight:700;text-decoration:underline;text-decoration-color:#c98d76;text-underline-offset:6px;overflow-wrap:anywhere}
@@ -315,7 +316,7 @@ body,main,.w,.s,.card,.bd,.cs,.lay{overflow-wrap:anywhere}
 <a class="skip" href="#app" onclick="event.preventDefault();document.getElementById('app').focus()">Skip to content</a>
 <header><div class="w bar"><a class="logo" href="#top" aria-label="Kiran Mamadapur, home"><b aria-hidden="true"><svg class="logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M16 3.5 19.1 12.9 28.5 16 19.1 19.1 16 28.5 12.9 19.1 3.5 16 12.9 12.9 16 3.5Z" fill="white"/><circle cx="16" cy="16" r="3.1" fill="#6A3DF0"/><path d="M21.5 10.5 25.5 6.5" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></b><span>Kiran Mamadapur</span></a>
 <button id="mb" aria-label="Open menu" aria-expanded="false">☰</button>
-<nav id="nav" aria-label="Main"><a href="#about">About</a><a href="#uiux">UI/UX Work</a><a href="#experience">Experience</a><a href="#evidence">Evidence</a><a href="#comparison">Compare</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#credentials">Education</a><a href="#contact">Contact</a></nav>
+<nav id="nav" aria-label="Main"><a href="#about">About</a><a href="#projects" data-f="ba">BA Work</a><a href="#projects" data-f="ux">UI/UX Work</a><a href="#experience">Experience</a><a href="#skills">Skills</a><a href="#contact">Contact</a></nav>
 <a class="btn p rs" data-cv href="Kiran-Mamadapur-Resume.pdf">Download Resume</a></div></header>
 <main id="app" tabindex="-1"></main>
 <footer><div class="w">© 2026 Kiran Mamadapur · Business Analyst · UI/UX Designer · Bangalore, India</div></footer>
@@ -606,7 +607,8 @@ function home(){const f=P[0];return `
 <section class="s" id="projects" aria-labelledby="pj"><div class="w"><div class="eyebrow">Selected BA & UI/UX work</div><h2 class="t" id="pj">Business analysis and user experience in practice.</h2>
 <div class="feat card"><div>${cvw(f,"feat")}</div><div class="bd"><span class="chip r">Paid client project</span><span class="chip">Flagship</span><h3 style="font-size:30px">${f.n}</h3><p style="color:var(--muted)">${f.ov}</p><div style="margin-bottom:16px">${["React / Vite","Node.js / Express","PostgreSQL","Vercel + Render","Admin 2FA","PWA"].map(x=>`<span class="chip">${x}</span>`).join("")}</div><div class="row"><a class="btn p" href="#case-${f.id}">View Case Study →</a>${lk(f,1)}</div></div></div>
 <h3 style="margin-top:48px">Independent Business Analysis & UI/UX case studies</h3><p class="note" style="margin:0 0 18px">Independent projects that show my BA and UI/UX method. The clients and data are fictional.</p>
-<div class="grid">${P.slice(1).map(p=>`<article class="card">${cvw(p)}<div class="bd">${chips(p)}<h3>${p.n}</h3><p>${p.t}. ${p.ov}</p><a class="go" href="#case-${p.id}" aria-label="View case study: ${p.n}">View Case Study →</a></div></article>`).join("")}</div></div></section>
+<div class="row pf" role="group" aria-label="Filter case studies by emphasis" style="margin-bottom:14px"><button class="btn on" data-f="all" aria-pressed="true">All</button><button class="btn" data-f="ba" aria-pressed="false">Business Analysis</button><button class="btn" data-f="ux" aria-pressed="false">UI/UX Design</button></div><p class="note" style="margin:0 0 18px">Every case study has both BA documents and UX screens. The filter shows where each one leans.</p>
+<div class="grid">${P.slice(1).map(p=>`<article class="card" data-tags="${TG[p.id]}">${cvw(p)}<div class="bd">${chips(p)}<h3>${p.n}</h3><p>${p.t}. ${p.ov}</p><a class="go" href="#case-${p.id}" aria-label="View case study: ${p.n}">View Case Study →</a></div></article>`).join("")}</div></div></section>
 <section class="s" id="skills" aria-labelledby="sk"><div class="w"><div class="eyebrow">Core capabilities</div><h2 class="t" id="sk">Business Analysis and UI/UX Design skills.</h2><div class="sk">${SK.map(s=>`<div class="card"><h3>${s[0]}</h3><div>${s[1].split(",").map(x=>`<span class="chip">${x}</span>`).join("")}</div></div>`).join("")}</div></div></section>
 <section class="s" id="credentials" aria-labelledby="cr"><div class="w"><div class="eyebrow">Education and certifications</div><h2 class="t" id="cr">Proof behind the work.</h2><div class="cr">
 <div class="card"><b>MBA, IT & Marketing</b><p>CGPA 8.02 (81%)</p></div><div class="card"><b>BBA</b><p>CGPA 8.10</p></div><div class="card"><b>IBM Certified Business Analyst</b><p>Requirements and process foundations</p></div><div class="card"><b>Deloitte Australia</b><p>Data Analytics Job Simulation</p></div><div class="card"><b>McKinsey Forward Program</b><p>Problem solving and business skills</p></div></div></div></section>
@@ -680,6 +682,9 @@ else{if(!app.querySelector("#about")){app.innerHTML=home();document.title="Kiran
 const e=h&&document.getElementById(h);setTimeout(()=>e?e.scrollIntoView({behavior:"smooth"}):scrollTo(0,0),30)}}
 let cvOk=1;function cv(){if(!cvOk)document.querySelectorAll("[data-cv]").forEach(a=>a.style.display="none")}
 const _r=route;route=function(){_r();cv()};
+const TG={urbanthread:"ux",talentbridge:"ux",medicare:"ba",novabank:"ba",quickbite:"ba"};
+function pfilter(f){document.querySelectorAll(".pf [data-f]").forEach(b=>{const on=b.dataset.f==f;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on)});document.querySelectorAll("#projects .grid .card[data-tags]").forEach(c=>{c.hidden=!(f=="all"||c.dataset.tags.includes(f))})}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-f]");if(b){const f=b.dataset.f;setTimeout(()=>pfilter(f),80)}});
 addEventListener("hashchange",route);route();
 if(location.protocol.startsWith("http"))fetch(CV,{method:"HEAD"}).then(r=>{if(!r.ok){cvOk=0;cv()}}).catch(()=>{});
 const header=document.querySelector("header"),nav=document.getElementById("nav"),mb=document.getElementById("mb");
