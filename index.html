@@ -311,6 +311,11 @@ body,main,.w,.s,.card,.bd,.cs,.lay{overflow-wrap:anywhere}
 .contact-note{margin:20px 0 0!important;color:#d7d4cb;font-size:12px}
 .contact-actions .btn{min-width:168px}
 @media(max-width:600px){.contact-actions{flex-direction:column;align-items:stretch}.contact-actions .btn{width:100%}.contact-email{font-size:17px}}
+
+/* Fix: long case-study contents list must scroll inside its sticky sidebar; stop table words breaking mid-word */
+@media(min-width:621px){.lay>.toc{max-height:calc(100vh - 130px);overflow-y:auto;overscroll-behavior:contain;padding-right:12px;scrollbar-width:thin}}
+.tw td,.tw th{overflow-wrap:break-word;word-break:normal}
+.tw th:first-child,.tw td:first-child{min-width:7.5em}
 </style>
 </head>
 <body>
