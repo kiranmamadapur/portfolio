@@ -316,6 +316,39 @@ body,main,.w,.s,.card,.bd,.cs,.lay{overflow-wrap:anywhere}
 @media(min-width:621px){.lay>.toc{max-height:calc(100vh - 130px);overflow-y:auto;overscroll-behavior:contain;padding-right:12px;scrollbar-width:thin}}
 .tw td,.tw th{overflow-wrap:break-word;word-break:normal}
 .tw th:first-child,.tw td:first-child{min-width:7.5em}
+
+/* Motion layer (v23). Everything here is skipped when the visitor prefers reduced motion. */
+#pgbar{position:fixed;top:0;left:0;height:3px;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:0 50%;z-index:60;pointer-events:none}
+header{transition:box-shadow .3s,background .3s}
+header.stuck{box-shadow:0 8px 28px rgba(36,37,30,.08)}
+nav a{position:relative}
+nav a:not(.btn):after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:0 50%;transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+nav a:not(.btn):hover:after,nav a[aria-current]:not(.btn):after{transform:scaleX(1)}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0)}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.rv{opacity:0}
+.rv.in{opacity:1;animation:rise .75s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:var(--d,0s)}
+.rv.fade.in{animation-name:fadeIn}
+
+/* Motion layer 2 (v24): split-text headlines, marquee, counters, cursor, magnetic buttons. */
+.sw{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.12em;margin-bottom:-.12em}
+.swi{display:inline-block;transform:translateY(112%)}
+.split.in .swi{transform:none;transition:transform .9s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i,0)*.055s + var(--b,0s))}
+.cnt{font-variant-numeric:tabular-nums;color:var(--muted);font-weight:600;letter-spacing:.12em}
+.eyebrow .cnt+*{margin-left:0}
+.mq{overflow:hidden;border-block:1px solid var(--line);background:var(--surface);padding:15px 0;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.mq-t{display:inline-flex;gap:0;animation:mq 38s linear infinite;will-change:transform}
+.mq:hover .mq-t{animation-play-state:paused}
+.mq span{font-family:var(--serif);font-size:clamp(24px,3.2vw,38px);letter-spacing:-.02em;padding:0 22px;display:inline-flex;align-items:center;gap:44px}
+.mq span:after{content:"✦";font:400 14px var(--sans);color:var(--accent)}
+@keyframes mq{to{transform:translateX(-50%)}}
+.cur{position:fixed;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;border:1.5px solid var(--accent);border-radius:50%;pointer-events:none;z-index:70;opacity:0;transition:opacity .25s,width .25s,height .25s,margin .25s,background .25s}
+.cur.on{opacity:.85}
+.cur.big{width:68px;height:68px;margin:-34px 0 0 -34px;background:rgba(163,79,54,.12)}
+.btn{transform:translate(var(--mx,0px),var(--my,0px))}
+.btn:hover{transform:translate(var(--mx,0px),calc(var(--my,0px) - 2px))}
 </style>
 </head>
 <body>
@@ -700,6 +733,49 @@ nav.querySelectorAll("a[href^=\"#\"]:not(.nav-cv)").forEach(a=>a.addEventListene
 document.addEventListener("click",e=>{if(!header.contains(e.target))closeMenu()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMenu()});
 if("IntersectionObserver" in window){const sections=[...document.querySelectorAll("main#app section[id]")];const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){nav.querySelectorAll("a[aria-current]").forEach(a=>a.removeAttribute("aria-current"));const link=nav.querySelector(`a[href="#${entry.target.id}"]`);if(link)link.setAttribute("aria-current","location")}})},{rootMargin:"-25% 0px -65% 0px",threshold:0});sections.forEach(section=>observer.observe(section))}
+
+/* Motion layer (v23): scroll reveal, header shadow, scroll progress. */
+(function(){
+const calm=matchMedia("(prefers-reduced-motion: reduce)").matches;
+if(calm||!("IntersectionObserver" in window))return;
+const bar=document.createElement("div");bar.id="pgbar";bar.setAttribute("aria-hidden","true");document.body.appendChild(bar);
+const hd=document.querySelector("header");let tick=0;
+function onScroll(){if(tick)return;tick=requestAnimationFrame(()=>{tick=0;const h=document.documentElement,max=h.scrollHeight-innerHeight;bar.style.transform="scaleX("+(max>0?Math.min(1,scrollY/max):0)+")";hd.classList.toggle("stuck",scrollY>8)})}
+addEventListener("scroll",onScroll,{passive:true});onScroll();
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12,rootMargin:"0px 0px -6% 0px"});
+const SEL=[".hero-copy",".hero>div:last-child",".hero .ph",".hero-proof>div","section .eyebrow","section .t+p",".card",".tl>div",".tw","#contact .w>*",".cs .lay>*"];
+function arm(){const seen=new Set();SEL.forEach(sel=>document.querySelectorAll("#app "+sel).forEach(el=>{if(seen.has(el)||el.classList.contains("rv"))return;seen.add(el);
+const sib=el.parentElement?[...el.parentElement.children].indexOf(el):0;el.style.setProperty("--d",Math.min(sib,5)*.08+"s");el.classList.add("rv");io.observe(el)}))}
+new MutationObserver(()=>arm()).observe(document.getElementById("app"),{childList:true});
+arm();
+})();
+
+/* Motion layer 2 (v24) */
+(function(){
+if(matchMedia("(prefers-reduced-motion: reduce)").matches||!("IntersectionObserver" in window))return;
+const app=document.getElementById("app");
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.2});
+function split(el){let n=0;(function walk(node){[...node.childNodes].forEach(c=>{if(c.nodeType===3){const f=document.createDocumentFragment();c.textContent.split(/(\s+)/).forEach(w=>{if(!w)return;if(/^\s+$/.test(w)){f.appendChild(document.createTextNode(" "));return}const o=document.createElement("span");o.className="sw";const i=document.createElement("span");i.className="swi";i.style.setProperty("--i",n++);i.textContent=w;o.appendChild(i);f.appendChild(o)});c.replaceWith(f)}else if(c.nodeType===1)walk(c)})})(el)}
+function arm(){
+app.querySelectorAll("h1,section h2.t").forEach(h=>{if(h.classList.contains("split"))return;h.setAttribute("aria-label",h.textContent.trim().replace(/\s+/g," "));split(h);h.querySelectorAll(".sw").forEach(x=>x.setAttribute("aria-hidden","true"));h.classList.add("split");io.observe(h)});
+const secs=[...app.querySelectorAll("section[id]")];
+secs.forEach((sec,i)=>{const eb=sec.querySelector(".eyebrow");if(eb&&!eb.querySelector(".cnt")){const c=document.createElement("span");c.className="cnt";c.textContent="[ "+String(i+2).padStart(2,"0")+" / "+String(secs.length+1).padStart(2,"0")+" ]";eb.prepend(c)}});
+const about=app.querySelector("#about");
+if(about&&!app.querySelector(".mq")){const items=["Business analysis","UI/UX design","BRD / FRD","BPMN & process mapping","Figma","SQL","Power BI","Agile / Scrum"];const row=items.map(x=>"<span>"+x+"</span>").join("");const m=document.createElement("div");m.className="mq";m.setAttribute("aria-hidden","true");m.innerHTML='<div class="mq-t">'+row+row+'</div>';about.before(m)}
+}
+new MutationObserver(arm).observe(app,{childList:true});arm();
+/* hero image parallax */
+let t=0;addEventListener("scroll",()=>{if(t)return;t=requestAnimationFrame(()=>{t=0;const ph=app.querySelector(".hero .ph");if(ph&&scrollY<1000)ph.style.translate="0 "+(scrollY*.07).toFixed(1)+"px"})},{passive:true});
+/* cursor ring and magnetic buttons: mouse devices only */
+if(matchMedia("(hover:hover) and (pointer:fine)").matches){
+const cur=document.createElement("div");cur.className="cur";cur.setAttribute("aria-hidden","true");document.body.appendChild(cur);
+let x=0,y=0,cx=0,cy=0,run=0;
+function loop(){cx+=(x-cx)*.2;cy+=(y-cy)*.2;cur.style.transform="translate("+cx+"px,"+cy+"px)";if(Math.abs(x-cx)>.1||Math.abs(y-cy)>.1)requestAnimationFrame(loop);else run=0}
+addEventListener("mousemove",e=>{x=e.clientX;y=e.clientY;cur.classList.add("on");cur.classList.toggle("big",!!e.target.closest("a,button,.card,[data-f]"));if(!run){run=1;requestAnimationFrame(loop)}
+const b=e.target.closest(".btn");if(b){const r=b.getBoundingClientRect();b.style.setProperty("--mx",((e.clientX-r.left-r.width/2)*.18).toFixed(1)+"px");b.style.setProperty("--my",((e.clientY-r.top-r.height/2)*.25).toFixed(1)+"px")}},{passive:true});
+document.addEventListener("mouseout",e=>{const b=e.target.closest&&e.target.closest(".btn");if(b){b.style.removeProperty("--mx");b.style.removeProperty("--my")}if(!e.relatedTarget)cur.classList.remove("on")});
+}
+})();
 </script>
 </body>
 </html>
