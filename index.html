@@ -42,6 +42,7 @@
 <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg"><link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem("theme")||"dark"}catch(e){document.documentElement.dataset.theme="dark"}</script>
 <style>
 :root{--paper:#f5f3ee;--surface:#fffefa;--ink:#20231f;--muted:#77786f;--line:#deddd5;--accent:#a34f36;--accent-soft:#f0e4dc;--olive:#59634d;--dark:#20251f;--serif:"Instrument Serif",Georgia,serif;--sans:"DM Sans",Arial,sans-serif;--radius:5px;--shadow:0 18px 55px rgba(36,37,30,.09)}
 *{box-sizing:border-box}
@@ -349,6 +350,94 @@ nav a:not(.btn):hover:after,nav a[aria-current]:not(.btn):after{transform:scaleX
 .cur.big{width:68px;height:68px;margin:-34px 0 0 -34px;background:rgba(163,79,54,.12)}
 .btn{transform:translate(var(--mx,0px),var(--my,0px))}
 .btn:hover{transform:translate(var(--mx,0px),calc(var(--my,0px) - 2px))}
+
+/* ===== v25: dark theme ===== */
+html{color-scheme:light}
+html[data-theme=dark]{color-scheme:dark;--paper:#0e100e;--surface:#161915;--ink:#eceae2;--muted:#9a9c91;--line:#2a2e29;--accent:#e8805e;--accent-soft:#2b1f19;--olive:#9fb08a;--dark:#1b201a;--shadow:0 22px 60px rgba(0,0,0,.55)}
+html[data-theme=dark] body{background:var(--paper)}
+html[data-theme=dark] header{background:rgba(14,16,14,.82);border-bottom-color:rgba(236,234,226,.09)}
+html[data-theme=dark] nav a{color:#b4b6ab}
+html[data-theme=dark] nav a:hover,html[data-theme=dark] nav a[aria-current]{color:#fff}
+html[data-theme=dark] .btn{border-color:#3a3f38}
+html[data-theme=dark] .btn.p{background:#eceae2;border-color:#eceae2;color:#111}
+html[data-theme=dark] .btn.p:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+html[data-theme=dark] .pf .btn.on{background:#eceae2;color:#111}
+html[data-theme=dark] .logo b{background:#262b24}
+html[data-theme=dark] .chip,html[data-theme=dark] .chip.sim{background:rgba(255,255,255,.04);color:#b9bbb0}
+html[data-theme=dark] .hero .chip:first-child,html[data-theme=dark] .hero-skills .chip:first-child{background:var(--accent-soft);color:#f0b9a4}
+html[data-theme=dark] .chip.sim{background:var(--accent-soft);color:#f0b9a4}
+html[data-theme=dark] .hero p,html[data-theme=dark] .s p,html[data-theme=dark] .mini,html[data-theme=dark] .bd p,html[data-theme=dark] .cs p,html[data-theme=dark] .cs li{color:#a9aba0}
+html[data-theme=dark] .note,html[data-theme=dark] .cs .note,html[data-theme=dark] .toc button{color:#8e9086!important}
+html[data-theme=dark] .toc button:hover{color:var(--accent)!important}
+html[data-theme=dark] .ph{background:#1d211c;filter:saturate(.8) brightness(.92)}
+html[data-theme=dark] .cv{background:#1d211c}
+html[data-theme=dark] .card:hover{border-color:#4a4f46}
+html[data-theme=dark] .tw th{background:#20241f}
+html[data-theme=dark] .ux-pair figure{background:#1d211c}
+html[data-theme=dark] .ux-links a{background:var(--surface)}
+html[data-theme=dark] .cs.artifact-brd,html[data-theme=dark] .cs.artifact-frd,html[data-theme=dark] .cs.artifact-rtm,html[data-theme=dark] .cs.artifact-process{background:linear-gradient(135deg,#161915,#121511)}
+html[data-theme=dark] .cs.artifact-brd .tw,html[data-theme=dark] .cs.artifact-frd .tw,html[data-theme=dark] .cs.artifact-rtm .tw,html[data-theme=dark] .cs.artifact-process .scroll{background:var(--surface)}
+html[data-theme=dark] .cs.artifact-frd tbody tr:nth-child(even),html[data-theme=dark] .cs.artifact-rtm tbody tr:nth-child(even),html[data-theme=dark] .cs.artifact-brd tbody tr:nth-child(even){background:#1a1d19}
+html[data-theme=dark] .feat,html[data-theme=dark] .cta{background:#1b201a;border:1px solid #2d332b}
+html[data-theme=dark] .mq{background:var(--surface)}
+html[data-theme=dark] .cnt{color:#8e9086}
+html[data-theme=dark] footer{color:var(--muted)}
+html[data-theme=dark] .hero h1 span{color:var(--accent)}
+html[data-theme=dark] :focus-visible{outline-color:var(--accent)}
+html[data-theme=dark] ::selection{background:var(--accent);color:#fff}
+html[data-theme=dark] .cur{border-color:#f0b9a4}
+html[data-theme=dark] .cur.big{background:rgba(232,128,94,.16)}
+html[data-theme=dark] #pgbar{background:linear-gradient(90deg,#e8805e,#f0b9a4)}
+
+/* theme toggle */
+#tt{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:transparent;color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:transform .4s cubic-bezier(.2,.8,.2,1),border-color .2s;flex:none}
+#tt:hover{transform:rotate(25deg) scale(1.06);border-color:var(--accent)}
+#tt svg{width:18px;height:18px;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .3s;grid-area:1/1}
+#tt .sun{opacity:0;transform:rotate(-90deg) scale(.4)}
+html[data-theme=dark] #tt .sun{opacity:1;transform:none}
+html[data-theme=dark] #tt .moon{opacity:0;transform:rotate(90deg) scale(.4)}
+.bar>.tools{display:flex;align-items:center;gap:12px}
+body,header,.card,.surface,.mq,.tw,.mini,.chip,.btn{transition-property:background-color,border-color,color,box-shadow,transform,opacity}
+@media(max-width:620px){#tt{position:absolute;right:0;top:13px}}
+
+/* ===== v25: extra motion ===== */
+.glow{position:fixed;left:0;top:0;width:640px;height:640px;margin:-320px 0 0 -320px;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(circle,rgba(232,128,94,.16),transparent 62%);opacity:0;transition:opacity .6s;will-change:transform}
+.glow.on{opacity:1}
+html:not([data-theme=dark]) .glow{background:radial-gradient(circle,rgba(163,79,54,.1),transparent 62%)}
+main,footer{position:relative;z-index:1}
+.card{position:relative}
+.card:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(340px circle at var(--gx,50%) var(--gy,50%),rgba(232,128,94,.15),transparent 62%)}
+.card:hover:after{opacity:1}
+@media(hover:hover) and (pointer:fine){
+.card{transform:perspective(1000px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
+.card:hover{transform:perspective(1000px) translateY(-4px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
+}
+.eyebrow:before{transition:width .9s cubic-bezier(.2,.8,.2,1) .15s}
+.eyebrow.rv:not(.in):before{width:0}
+.card.in .cv>img:first-child{animation:zoomIn 1.4s cubic-bezier(.2,.7,.2,1) backwards}
+@keyframes zoomIn{from{transform:scale(1.22);filter:blur(6px)}to{transform:none;filter:none}}
+.logo b{transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.logo:hover b{transform:rotate(180deg)}
+.logo-mark{animation:spinSlow 18s linear infinite}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+.hero-kicker:after{content:"";display:inline-block;width:7px;height:7px;margin-left:10px;border-radius:50%;background:var(--accent);animation:pulse 2s ease-in-out infinite;vertical-align:middle}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(232,128,94,.55)}50%{box-shadow:0 0 0 8px rgba(232,128,94,0)}}
+.hero-proof strong{font-variant-numeric:tabular-nums}
+.mq.rev .mq-t{animation-direction:reverse;animation-duration:46s}
+.mq.rev span{font-style:italic}
+.tl>div{transition:background .3s}
+.tl>div:hover{background:rgba(232,128,94,.06)}
+.chip{transition:transform .2s,background .2s,border-color .2s}
+.chip:hover{transform:translateY(-2px);border-color:var(--accent)}
+.toc button{transition:color .2s,padding-left .25s}
+.toc button:hover{padding-left:8px}
+/* intro curtain */
+#intro{position:fixed;inset:0;z-index:100;background:#0e100e;color:#eceae2;display:grid;place-items:center;transition:transform .9s cubic-bezier(.77,0,.18,1)}
+#intro.out{transform:translateY(-100%)}
+#intro span{font:400 clamp(34px,7vw,76px)/1 var(--serif);letter-spacing:-.03em;overflow:hidden;display:block}
+#intro i{display:block;font-style:italic;color:var(--accent);animation:introUp .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes introUp{from{transform:translateY(105%)}to{transform:none}}
+.hero h1.split{--b:.55s}
 </style>
 </head>
 <body>
@@ -356,7 +445,7 @@ nav a:not(.btn):hover:after,nav a[aria-current]:not(.btn):after{transform:scaleX
 <header><div class="w bar"><a class="logo" href="#top" aria-label="Kiran Mamadapur, home"><b aria-hidden="true"><svg class="logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M16 3.5 19.1 12.9 28.5 16 19.1 19.1 16 28.5 12.9 19.1 3.5 16 12.9 12.9 16 3.5Z" fill="white"/><circle cx="16" cy="16" r="3.1" fill="#6A3DF0"/><path d="M21.5 10.5 25.5 6.5" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></b><span>Kiran Mamadapur</span></a>
 <button id="mb" aria-label="Open menu" aria-expanded="false">☰</button>
 <nav id="nav" aria-label="Main"><a href="#about">About</a><a href="#projects" data-f="ba">BA Work</a><a href="#projects" data-f="ux">UI/UX Work</a><a href="#experience">Experience</a><a href="#skills">Skills</a><a href="#contact">Contact</a></nav>
-<a class="btn p rs" data-cv href="Kiran-Mamadapur-Resume.pdf">Download Resume</a></div></header>
+<div class="tools"><button id="tt" type="button" aria-label="Switch colour theme"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button><a class="btn p rs" data-cv href="Kiran-Mamadapur-Resume.pdf">Download Resume</a></div></div></header>
 <main id="app" tabindex="-1"></main>
 <footer><div class="w">© 2026 Kiran Mamadapur · Business Analyst · UI/UX Designer · Bangalore, India</div></footer>
 <script>
@@ -743,7 +832,7 @@ const hd=document.querySelector("header");let tick=0;
 function onScroll(){if(tick)return;tick=requestAnimationFrame(()=>{tick=0;const h=document.documentElement,max=h.scrollHeight-innerHeight;bar.style.transform="scaleX("+(max>0?Math.min(1,scrollY/max):0)+")";hd.classList.toggle("stuck",scrollY>8)})}
 addEventListener("scroll",onScroll,{passive:true});onScroll();
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12,rootMargin:"0px 0px -6% 0px"});
-const SEL=[".hero-copy",".hero>div:last-child",".hero .ph",".hero-proof>div","section .eyebrow","section .t+p",".card",".tl>div",".tw","#contact .w>*",".cs .lay>*"];
+const SEL=[".hero-copy",".hero>div:last-child",".hero .ph",".hero-proof>div",".hero-skills .chip",".hero-actions>*",".mini","section .eyebrow","section .t+p",".card",".tl>div",".tw","#contact .w>*",".cs .lay>*"];
 function arm(){const seen=new Set();SEL.forEach(sel=>document.querySelectorAll("#app "+sel).forEach(el=>{if(seen.has(el)||el.classList.contains("rv"))return;seen.add(el);
 const sib=el.parentElement?[...el.parentElement.children].indexOf(el):0;el.style.setProperty("--d",Math.min(sib,5)*.08+"s");el.classList.add("rv");io.observe(el)}))}
 new MutationObserver(()=>arm()).observe(document.getElementById("app"),{childList:true});
@@ -775,6 +864,40 @@ addEventListener("mousemove",e=>{x=e.clientX;y=e.clientY;cur.classList.add("on")
 const b=e.target.closest(".btn");if(b){const r=b.getBoundingClientRect();b.style.setProperty("--mx",((e.clientX-r.left-r.width/2)*.18).toFixed(1)+"px");b.style.setProperty("--my",((e.clientY-r.top-r.height/2)*.25).toFixed(1)+"px")}},{passive:true});
 document.addEventListener("mouseout",e=>{const b=e.target.closest&&e.target.closest(".btn");if(b){b.style.removeProperty("--mx");b.style.removeProperty("--my")}if(!e.relatedTarget)cur.classList.remove("on")});
 }
+})();
+
+/* v25: theme toggle (works with or without motion) */
+(function(){
+const root=document.documentElement,tt=document.getElementById("tt");
+function setT(t){root.dataset.theme=t;try{localStorage.setItem("theme",t)}catch(e){}tt.setAttribute("aria-label",t==="dark"?"Switch to light theme":"Switch to dark theme")}
+setT(root.dataset.theme||"dark");
+tt.addEventListener("click",()=>{const n=root.dataset.theme==="dark"?"light":"dark";if(document.startViewTransition&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.startViewTransition(()=>setT(n));else setT(n)});
+})();
+/* v25: extra motion */
+(function(){
+if(matchMedia("(prefers-reduced-motion: reduce)").matches||!("IntersectionObserver" in window))return;
+const app=document.getElementById("app");
+/* intro curtain, once per tab session */
+let seen=0;try{seen=sessionStorage.getItem("intro")}catch(e){}
+if(!seen&&!location.hash.startsWith("#case-")){try{sessionStorage.setItem("intro","1")}catch(e){}
+const iv=document.createElement("div");iv.id="intro";iv.setAttribute("aria-hidden","true");iv.innerHTML='<span><i>Kiran Mamadapur</i></span>';document.body.appendChild(iv);
+setTimeout(()=>iv.classList.add("out"),1150);setTimeout(()=>iv.remove(),2200)}
+/* count-up stats */
+const co=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;co.unobserve(e.target);const el=e.target,m=el.textContent.match(/^([\d.]+)(.*)$/);if(!m)return;const end=parseFloat(m[1]),dec=(m[1].split(".")[1]||"").length,suf=m[2],t0=performance.now(),D=1400;(function f(t){const k=Math.min(1,(t-t0)/D),v=end*(1-Math.pow(1-k,3));el.textContent=v.toFixed(dec)+suf;if(k<1)requestAnimationFrame(f)})(t0)}),{threshold:.6});
+/* mouse glow */
+const glow=document.createElement("div");glow.className="glow";glow.setAttribute("aria-hidden","true");document.body.prepend(glow);
+const fine=matchMedia("(hover:hover) and (pointer:fine)").matches;
+if(fine){let gx=0,gy=0,tx=0,ty=0,on=0;function gl(){gx+=(tx-gx)*.08;gy+=(ty-gy)*.08;glow.style.transform="translate("+gx+"px,"+gy+"px)";if(Math.abs(tx-gx)>.5||Math.abs(ty-gy)>.5)requestAnimationFrame(gl);else on=0}
+addEventListener("mousemove",e=>{tx=e.clientX;ty=e.clientY;glow.classList.add("on");if(!on){on=1;requestAnimationFrame(gl)}},{passive:true});
+/* card tilt and spotlight */
+app.addEventListener("mousemove",e=>{const c=e.target.closest(".card");if(!c)return;const r=c.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;c.style.setProperty("--gx",(px*100)+"%");c.style.setProperty("--gy",(py*100)+"%");c.style.setProperty("--ry",((px-.5)*5).toFixed(2)+"deg");c.style.setProperty("--rx",((.5-py)*4).toFixed(2)+"deg")},{passive:true});
+app.addEventListener("mouseout",e=>{const c=e.target.closest(".card");if(c&&!c.contains(e.relatedTarget)){c.style.setProperty("--rx","0deg");c.style.setProperty("--ry","0deg")}})}
+/* second marquee before contact, count-up wiring */
+function arm(){
+app.querySelectorAll(".hero-proof strong").forEach(el=>{if(!el.dataset.cu){el.dataset.cu=1;co.observe(el)}});
+const ct=app.querySelector("#contact");
+if(ct&&!app.querySelector(".mq.rev")){const items=["Requirements","Stakeholder workshops","Wireframes","Prototyping","User research","Validation","Traceability"];const row=items.map(x=>"<span>"+x+"</span>").join("");const m=document.createElement("div");m.className="mq rev";m.setAttribute("aria-hidden","true");m.innerHTML='<div class="mq-t">'+row+row+'</div>';ct.before(m)}}
+new MutationObserver(arm).observe(app,{childList:true});arm();
 })();
 </script>
 </body>
